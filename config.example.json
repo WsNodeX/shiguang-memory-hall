@@ -1,0 +1,5 @@
+{
+  "baidu_api_key": "在此填写你的百度智能云 API Key",
+  "baidu_secret_key": "在此填写你的百度智能云 Secret Key",
+  "port": 8787
+}

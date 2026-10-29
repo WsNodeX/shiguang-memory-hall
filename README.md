@@ -1,49 +1,143 @@
-# 拾光 · 真·AI 修复接入说明（正式版：搭子链接可提交）
+# 拾光 · 家的记忆馆  ·  Shiguang · Home Memory Hall
 
-## 架构（为什么这么设计）
-比赛要求提交 **百度搭子发布的作品链接**（dumate.cn/artifacts/xxx），那是纯静态托管。
-实测百度图像接口**不允许浏览器跨域直接调**（无 CORS 头），且 Key 也不能暴露在前端。
-所以：搭子静态页 → 调「百度云函数 CFC」代理 → CFC 拿 Key 调百度图像接口 → 返回修复图。
-断网/接口失败 → 前端自动 canvas 滤镜兜底，永不卡死。
+> 上传一张老照片，AI 帮你修复上色，并把照片背后的故事，做成一本**会说话的家庭纪念册**。
 
-## 全部步骤（你自己动手，约 20 分钟）
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![Built with Baidu DuMate](https://img.shields.io/badge/built%20with-Baidu%20DuMate-blue.svg)](https://www.dumate.cn)
+[![🚀 在线演示](https://img.shields.io/badge/🚀_在线演示-Dumate-orange?style=for-the-badge)](https://www.dumate.cn/artifacts/pyutmx3wpox3)
 
-### 第 1 步：拿百度 API Key
-1. https://cloud.baidu.com → 图像增强与特效控制台 → 实名认证（自动领免费额度：每项 1000 次）
-2. 创建应用 → 复制 `API Key` 和 `Secret Key`
+---
 
-### 第 2 步：部署云函数（同一个百度账号，全程网页点）
-1. 控制台 → 云函数计算 CFC → 创建函数
-   - 运行时：**Node.js 18+**，模板：空白函数（event）
-2. 把本目录 `cfc-index.js` 的全部代码粘贴进在线编辑器 → 保存
-3. 函数「配置」→ 环境变量，添加：
-   - `BAIDU_API_KEY` = 第1步的 API Key
-   - `BAIDU_SECRET_KEY` = 第1步的 Secret Key
-4. 「配置」→ 触发器 → 新增触发器：
-   - HTTP 触发器，URL 路径 `/restore`，方法 **POST**，身份验证：**不验证**
-5. 保存后得到公网 URL（形如 `https://xxx.cfc-execute.bj.baidubce.com/restore`）
+## ✨ 这是个什么作品
 
-### 第 3 步：把 URL 填进前端
-- 打开拾光的 `index.html`，搜 `RESTORE_API`，把 URL 填进引号里：
-  `var RESTORE_API='https://xxx.cfc-execute.bj.baidubce.com/restore';`
-- （或者把 URL 发我，我帮你填）
+「拾光·家的记忆馆」是一个面向**家庭记忆留存**的 AI 应用：把泛黄、破损、黑白的老照片，修复成清晰彩色；再围绕照片，用多个 AI 智能体帮你**采集口述故事、自动成稿、生成有声朗读**，最终产出一本可分享的「有声家书 / 纪念册」。
 
-### 第 4 步：发布
-- 把最终版 `index.html` 交给做作品的人，在百度搭子里用这个文件生成/更新作品 → 点「已发布」
-- 复制 `dumate.cn/artifacts/xxx` 链接 → 提交参赛
+它不是一个单纯的"问答机器人"，而是把 **AI 图像修复 + 口述史访谈 + 有声内容生产** 串成一条流水线——这也是它在比赛里差异化的核心。
 
-### 第 5 步：验收清单
-- [ ] 自己传一张黑白老照片 →「修复后」真的变成彩色高清（真 API）
-- [ ] 手机开飞行模式再传一张 → 显示"（离线模式）"，滤镜兜底也不卡死
-- [ ] 滑块线能拖（鼠标+手机触摸）
-- [ ] 搭子发布链接在手机浏览器打开正常
+### 四位智能体，像一个小工作室
 
-## 本地开发自测（可选）
-```bash
-cd 本目录 && node server.js   # 打开 http://localhost:8787
+| 智能体 | 角色 | 负责的事 |
+| --- | --- | --- |
+| **阿拾** | 修复师 | 老照片上色、去折痕、清晰度增强、超分 |
+| **小忆** | 访谈员 | 围绕照片发起口述史访谈，引导讲述背后的故事 |
+| **文叔叔** | 编导 | 把零散口述整理成有温度的纪念册文稿 |
+| **声声** | 朗读者 | 把文稿合成温暖男声，做成可播放的有声内容 |
+
+---
+
+## 🖼️ 效果展示
+
+老照片修复（黑白 / 破损 → 清晰彩色）：
+
+<p align="center">
+  <img src="./assets/showcase/family-before.jpg" width="45%" alt="修复前"/>
+  <img src="./assets/showcase/family-after.jpg" width="45%" alt="修复后"/>
+</p>
+<p align="center"><sub>左：原始老照片（一家三口合影）　右：AI 修复上色后</sub></p>
+
+更多示例：
+
+<p align="center">
+  <img src="./assets/showcase/children-before.jpg" width="30%" alt="修复前"/>
+  <img src="./assets/showcase/children-after.jpg" width="30%" alt="修复后"/>
+  <img src="./assets/showcase/wedding-after.jpg" width="30%" alt="婚纱修复后"/>
+</p>
+
+> 完整交互界面、语音访谈、有声家书播放，请直接体验 👉 **[在线演示](https://www.dumate.cn/artifacts/pyutmx3wpox3)**
+
+---
+
+## 🚀 在线演示
+
+👉 **https://www.dumate.cn/artifacts/pyutmx3wpox3**
+
+（部署在百度 DuMate 平台，手机 / 电脑均可打开。注：移动端浏览器出于安全限制不开放麦克风，语音访谈请在桌面端体验。）
+
+---
+
+## 🏗️ 技术架构
+
 ```
-RESTORE_API 留空时前端走本地服务（用 config.json 里的 Key）。
+┌─────────────────────────────────────────────┐
+│  前端：百度 DuMate 多智能体编排（阿拾/小忆/    │
+│        文叔叔/声声）                          │
+│  - 老照片上传、故事卡生成、分享册、有声播放     │
+└───────────────┬─────────────────────────────┘
+                │  HTTPS（text/plain，规避预检）
+┌───────────────▼─────────────────────────────┐
+│  后端代理：百度智能云 CFC 云函数（src/）        │
+│  - /restore：调用百度图像修复 API（上色/增强/超分）│
+│  - /chat   ：调用千帆大模型对话（小忆访谈/文叔叔成稿）│
+│  - 密钥仅存服务端环境变量，前端拿不到            │
+└─────────────────────────────────────────────┘
+```
 
-## 成本
-- 百度图像接口：实名送免费额度（每项 1000 次），比赛用量用不完，0 元
-- CFC 云函数：有免费额度，这个调用量 0 元
+- **前端**：在 [百度 DuMate](https://www.dumate.cn) 上以可视化方式搭建，多智能体协作即"AI 原生结构"，无需从零训练模型。
+- **图像修复**：百度智能云图像增强系列接口（黑白上色 → 色彩增强 → 清晰度增强 → 2× 超分）。
+- **对话 / 成稿**：百度千帆大模型（ERNIE 系列）。
+- **语音合成**：浏览器 TTS（桌面端）+ 可选服务端 TTS，统一为温暖男声。
+
+---
+
+## 📦 本地运行 / 部署
+
+### 1. 部署后端代理（CFC 云函数）
+
+`src/cfc-index-with-chat.js` 是同时包含「修复 + 访谈」的代理，部署到百度智能云 CFC：
+
+1. 新建 **Node.js 18+** 空白函数（事件函数）。
+2. 整文件覆盖为 `src/cfc-index-with-chat.js`，保存。
+3. 配置 **HTTP 触发器**（POST，不验证）。
+4. 在函数环境变量中填入你自己的密钥（**不要写死在代码里**）：
+   - `BAIDU_API_KEY`
+   - `BAIDU_SECRET_KEY`
+   - `QIANFAN_API_KEY`（千帆控制台创建，以 `bce-v3/` 开头）
+5. 把触发器的 URL 填回前端对应的接口地址即可。
+
+> 仅图像修复、不需要访谈的轻量版本见 `src/cfc-index.js`。
+
+### 2. 本地预览（可选）
+
+```bash
+cp config.example.json config.json   # 在 config.json 填入你的百度密钥
+node src/server.js                    # 启动本地静态服务，默认 http://localhost:8787
+```
+
+### 3. 生成示例修复图（可选）
+
+```bash
+BAIDU_API_KEY=你的key BAIDU_SECRET_KEY=你的key node src/gen-after-local.js
+```
+
+---
+
+## 📂 项目结构
+
+```
+.
+├── README.md                  # 本文件
+├── LICENSE                    # MIT 开源协议
+├── config.example.json        # 本地配置模板（复制为 config.json 后填密钥）
+├── src/                       # 可复用源码
+│   ├── cfc-index-with-chat.js  # CFC 代理：修复 + 千帆访谈双路由
+│   ├── cfc-index.js           # CFC 代理：仅图像修复（轻量版）
+│   ├── gen-after-local.js      # 本地批量生成修复后示例图
+│   └── server.js              # 本地静态预览服务
+└── assets/showcase/           # 效果展示用「修复前/后」对比图
+```
+
+> 在线演示所使用的 DuMate 应用本体由平台托管，本仓库提供其**后端代理源码**与**效果素材**，方便你理解实现、自行部署同类应用。
+
+---
+
+## 📄 开源协议
+
+本项目以 **MIT 协议** 开源，可自由学习、二次创作、商用，请保留版权声明。详见 [LICENSE](./LICENSE)。
+
+---
+
+## 💡 关于 / 致谢
+
+- 作品参赛：**全国大学生 AI 应用生成大赛**。
+- 能力底座：感谢 [百度 DuMate](https://www.dumate.cn) 与百度智能云（图像修复 / 千帆大模型）提供的平台与 API。
+- 欢迎 Star ⭐ / Fork，也欢迎基于本项目做出你自己的"家的记忆馆"。

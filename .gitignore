@@ -1,6 +1,38 @@
-# 核验中间产物：线上单文件副本（非源码，12MB）
+# 核验中间产物（线上单文件副本，非源码）
 dumate_artifact.html
-# 系统/编辑器
+
+# 本地配置（含密钥占位，用户自行创建，不入库）
+config.json
+
+# 内部开发 / 协作文档与草稿（不对外公开）
+拾光_修复指令单_*.md
+拾光_给搭子*.md
+拾光_缺陷整改总清单*.md
+拾光_线上核验报告*.md
+拾光_作品描述_提交用.md
+提交材料包.md
+AI大赛一等奖作战方案.html
+
+# 内部素材 / 交付草稿目录
+assets-fix/
+assets-new/
+assets-real/
+assets-restored/
+deliver/
+deliver-compressed/
+cover/
+handover-*/
+
+# 零散临时图片 / 视频帧（不对外）
+test-bw.jpg
+test-color.jpg
+demo-colourized.jpg
+cloud-live-test.jpg
+repaired-old-photo-real.jpg
+vid_frame_*.png
+
+# 系统 / 编辑器
 .DS_Store
 Thumbs.db
 *.swp
+node_modules/
