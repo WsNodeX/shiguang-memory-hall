@@ -1,0 +1,6 @@
+# 核验中间产物：线上单文件副本（非源码，12MB）
+dumate_artifact.html
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+*.swp
