@@ -23,8 +23,22 @@
 | **文叔叔** | 编导 | 把零散口述整理成有温度的纪念册文稿 |
 | **声声** | 朗读者 | 把文稿合成温暖男声，做成可播放的有声内容 |
 
----
+### 想直接看代码？
 
+这个作品的前端在 DuMate 平台上搭建，仓库里是**后端代理源码**——只有 4 个文件，核心一个：
+
+```bash
+git clone https://github.com/WsNodeX/shiguang-memory-hall
+cd shiguang-memory-hall && ls -la src/
+# cfc-index-with-chat.js  修复 + 千帆访谈，双路由
+# cfc-index.js            只有修复的轻量版
+# server.js               本地静态预览
+# gen-after-local.js      批量生成修复示例图
+```
+
+密钥全部走环境变量，代码里没有任何硬编码凭据。
+
+---
 ## 🖼️ 效果展示
 
 老照片修复（黑白 / 破损 → 清晰彩色）：
