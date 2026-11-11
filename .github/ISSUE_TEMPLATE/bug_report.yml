@@ -1,0 +1,33 @@
+name: Bug report
+description: A route does not behave as documented
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The response body or the error text, including the Baidu error code if present.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: Quote the README line or the comment in src/ that promises it, if there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: The request — route, body shape, and whether it was the deployed demo or your own CFC function.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Where
+      placeholder: deployed demo / my own CFC function / local server.js
